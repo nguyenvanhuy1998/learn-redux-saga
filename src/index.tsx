@@ -1,12 +1,13 @@
+import { CssBaseline } from '@material-ui/core';
+import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import { history } from 'utils';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { store } from './app/store';
 import './index.css';
-import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -14,10 +15,10 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <CssBaseline />
         <App />
-      </BrowserRouter>
+      </ConnectedRouter>
     </Provider>
   </React.StrictMode>,
 );
