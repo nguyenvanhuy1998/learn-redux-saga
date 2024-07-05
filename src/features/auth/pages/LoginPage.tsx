@@ -1,6 +1,14 @@
-import { Box, Button, makeStyles, Paper, Typography, useTheme } from '@material-ui/core';
-import { useAppDispatch } from 'app/hooks';
-import { authActions } from '../authSlice';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  makeStyles,
+  Paper,
+  Typography,
+  useTheme,
+} from '@material-ui/core';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { authActions, selectLogging } from '../authSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const classes = useStyles(useTheme());
   const dispatch = useAppDispatch();
+  const isLogging = useAppSelector(selectLogging);
   const handleLoginClick = () => {
     dispatch(
       authActions.login({
@@ -35,7 +44,7 @@ export default function LoginPage() {
         <Typography variant="h5">Student Management</Typography>
         <Box className={classes.button}>
           <Button fullWidth variant="contained" color="primary" onClick={handleLoginClick}>
-            Fake Login
+            {isLogging && <CircularProgress size={18} color="secondary" />} &nbsp; Fake Login
           </Button>
         </Box>
       </Paper>
