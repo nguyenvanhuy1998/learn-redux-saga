@@ -14,7 +14,7 @@ function* handleLogin(payload: LoginPayload) {
       }),
     );
     // Redirect to admin page
-    yield put(push('/admin'));
+    yield put(push('/admin/dashboard'));
   } catch (error) {
     yield put(authActions.loginFailed('Lỗi'));
   }
