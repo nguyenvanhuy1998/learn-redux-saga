@@ -48,15 +48,10 @@ export function StudentTable({ studentList, onEdit, onRemove }: StudentTableProp
               <TableCell>{student.mark}</TableCell>
               <TableCell>{student.city}</TableCell>
               <TableCell align="right">
-                <Button
-                  className={classes.edit}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => onEdit?.(student)}
-                >
+                <Button className={classes.edit} color="primary" onClick={() => onEdit?.(student)}>
                   Edit
                 </Button>
-                <Button variant="outlined" color="secondary" onClick={() => onRemove?.(student)}>
+                <Button size="small" color="secondary" onClick={() => onRemove?.(student)}>
                   Remove
                 </Button>
               </TableCell>

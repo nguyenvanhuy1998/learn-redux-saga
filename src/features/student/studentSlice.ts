@@ -5,19 +5,19 @@ import { ListParams, ListResponse, PaginationParams, Student } from 'models';
 export interface StudentState {
   loading: boolean;
   list: Student[];
-  filter?: ListParams;
-  pagination?: PaginationParams;
+  filter: ListParams;
+  pagination: PaginationParams;
 }
 const initialState: StudentState = {
   loading: false,
   list: [],
   filter: {
     _page: 1,
-    _limit: 15,
+    _limit: 10,
   },
   pagination: {
     _page: 1,
-    _limit: 15,
+    _limit: 10,
     _totalRows: 15,
   },
 };
