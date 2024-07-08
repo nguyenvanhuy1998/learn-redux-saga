@@ -1,8 +1,23 @@
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useEffect } from 'react';
-import { studentActions } from '../studentSlice';
+import { selectStudentList, studentActions } from '../studentSlice';
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import { StudentTable } from '../components/StudentTable';
 
+const useStyles = makeStyles((theme) => ({
+  root: {},
+  titleContainer: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing(4),
+  },
+}));
 export function ListPage() {
+  const classes = useStyles();
+  const studentList = useAppSelector(selectStudentList);
+  console.log({ studentList });
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
@@ -12,5 +27,18 @@ export function ListPage() {
       }),
     );
   }, [dispatch]);
-  return <div>ListPage</div>;
+  return (
+    <Box className={classes.root}>
+      <Box className={classes.titleContainer}>
+        <Typography variant="h4">Students</Typography>
+        <Button variant="contained" color="primary">
+          Add new student
+        </Button>
+      </Box>
+      {/* Student Table */}
+      <StudentTable studentList={studentList} />
+
+      {/* Pagination */}
+    </Box>
+  );
 }
