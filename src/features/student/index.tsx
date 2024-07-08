@@ -2,7 +2,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { ListPage } from './pages/ListPage';
 import { AddEditPage } from './pages/AddEditPage';
 
-export function StudentsFeature() {
+export function StudentFeature() {
   const match = useRouteMatch();
   return (
     <Switch>
