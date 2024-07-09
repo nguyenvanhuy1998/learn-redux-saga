@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   makeStyles,
   Paper,
@@ -11,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { Student } from 'models';
 import * as React from 'react';
+import { capitalizeString, getMarkColor } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   table: {},
@@ -44,8 +46,17 @@ export function StudentTable({ studentList, onEdit, onRemove }: StudentTableProp
             <TableRow key={student.id}>
               <TableCell>{student.id}</TableCell>
               <TableCell>{student.name}</TableCell>
-              <TableCell>{student.gender}</TableCell>
-              <TableCell>{student.mark}</TableCell>
+              <TableCell>{capitalizeString(student.gender)}</TableCell>
+              <TableCell>
+                <Box
+                  style={{
+                    color: getMarkColor(student.mark),
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {student.mark}
+                </Box>
+              </TableCell>
               <TableCell>{student.city}</TableCell>
               <TableCell align="right">
                 <Button className={classes.edit} color="primary" onClick={() => onEdit?.(student)}>
