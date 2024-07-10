@@ -60,6 +60,9 @@ export function ListPage() {
   const handleSearchChange = (newFilter: ListParams) => {
     dispatch(studentActions.setFilterWithDebounce(newFilter));
   };
+  const handleFilterChange = (newFilter: ListParams) => {
+    dispatch(studentActions.setFilter(newFilter));
+  };
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
@@ -75,7 +78,12 @@ export function ListPage() {
           marginBottom: '24px',
         }}
       >
-        <StudentFilter filter={filter} cityList={cityList} onSearchChange={handleSearchChange} />
+        <StudentFilter
+          filter={filter}
+          cityList={cityList}
+          onChange={handleFilterChange}
+          onSearchChange={handleSearchChange}
+        />
       </Box>
       {/* Student Table */}
       <StudentTable studentList={studentList} cityMap={cityMap} />

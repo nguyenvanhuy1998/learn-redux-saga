@@ -1,4 +1,12 @@
-import { Box, FormControl, Grid, InputLabel, OutlinedInput } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+} from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { City, ListParams } from 'models';
 import { ChangeEvent } from 'react';
@@ -10,14 +18,31 @@ export interface StudentFilterProps {
   onSearchChange?: (newFilter: ListParams) => void;
 }
 
-export function StudentFilter({ filter, onSearchChange }: StudentFilterProps) {
+export function StudentFilter({ filter, cityList, onChange, onSearchChange }: StudentFilterProps) {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!onSearchChange) return;
-    const newFilter = {
+    const newFilter: ListParams = {
       ...filter,
       name_like: e.target.value,
+      _page: 1,
     };
     onSearchChange(newFilter);
+  };
+  const handleFilterChange = (
+    e: ChangeEvent<{
+      name?: string;
+      value: unknown;
+    }>,
+  ) => {
+    if (!onChange) {
+      return;
+    }
+    const newFilter: ListParams = {
+      ...filter,
+      city: e.target.value || undefined,
+      _page: 1,
+    };
+    onChange(newFilter);
   };
   return (
     <Box>
@@ -33,6 +58,27 @@ export function StudentFilter({ filter, onSearchChange }: StudentFilterProps) {
               onChange={handleSearchChange}
               labelWidth={60}
             />
+          </FormControl>
+        </Grid>
+        {/* Filter by City */}
+        <Grid item xs={12} md={6} lg={3}>
+          <FormControl variant="outlined" fullWidth size="small">
+            <InputLabel id="filterByCity">Filter by city</InputLabel>
+            <Select
+              labelId="filterByCity"
+              value={filter.city || ''}
+              onChange={handleFilterChange}
+              label="Filter by city"
+            >
+              <MenuItem value="">
+                <em>All</em>
+              </MenuItem>
+              {cityList.map((city) => (
+                <MenuItem key={city.code} value={city.code}>
+                  {city.name}
+                </MenuItem>
+              ))}
+            </Select>
           </FormControl>
         </Grid>
       </Grid>
