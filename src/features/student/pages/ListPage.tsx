@@ -14,6 +14,8 @@ import { selectCityList, selectCityMap } from 'features/city/citySlice';
 import { StudentFilter } from '../components/StudentFilter';
 import { ListParams, Student } from 'models';
 import studentApi from 'api/studentApi';
+import { Link, useRouteMatch } from 'react-router-dom';
+import { history } from 'utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export function ListPage() {
+  const match = useRouteMatch();
   const classes = useStyles();
   const studentList = useAppSelector(selectStudentList);
   const pagination = useAppSelector(selectStudentPagination);
@@ -75,14 +78,19 @@ export function ListPage() {
       console.log('Failed to remove student: ' + error);
     }
   };
+  const handleEditStudent = (student: Student) => {
+    history.push(`${match.url}/${student.id}`);
+  };
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
       <Box className={classes.titleContainer}>
         <Typography variant="h4">Students</Typography>
-        <Button variant="contained" color="primary">
-          Add new student
-        </Button>
+        <Link to={`${match.url}/add`}>
+          <Button variant="contained" color="primary">
+            Add new student
+          </Button>
+        </Link>
       </Box>
       {/* Student Filter */}
       <Box
@@ -98,7 +106,12 @@ export function ListPage() {
         />
       </Box>
       {/* Student Table */}
-      <StudentTable studentList={studentList} cityMap={cityMap} onRemove={handleRemoveStudent} />
+      <StudentTable
+        studentList={studentList}
+        cityMap={cityMap}
+        onEdit={handleEditStudent}
+        onRemove={handleRemoveStudent}
+      />
 
       {/* Pagination */}
       <Box className={classes.paginationContainer}>
