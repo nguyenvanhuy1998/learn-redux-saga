@@ -1,4 +1,4 @@
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
 import { InputField, RadioGroupField, SelectField } from 'components/formfields';
 import { selectCityOptions } from 'features/city/citySlice';
@@ -6,6 +6,8 @@ import { Student } from 'models';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { SetStateAction, useState } from 'react';
+import { Alert } from '@material-ui/lab';
 
 export interface StudentFormProps {
   initialValues?: Student;
@@ -45,12 +47,22 @@ const schema = yup.object().shape({
 
 export function StudentForm({ initialValues, onSubmit }: StudentFormProps) {
   const cityOptions = useAppSelector(selectCityOptions);
-  const { control, handleSubmit } = useForm({
+  const [error, setError] = useState<string>('');
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm({
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const handleFormSubmit = (formValues: Student) => {
-    console.log('Submit:', formValues);
+  const handleFormSubmit = async (formValues: Student) => {
+    try {
+      setError('');
+      await onSubmit?.(formValues);
+    } catch (error: any) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -78,14 +90,18 @@ export function StudentForm({ initialValues, onSubmit }: StudentFormProps) {
             },
           ]}
         />
-        <SelectField name="city" control={control} label="City" options={cityOptions} />
+        {Array.isArray(cityOptions) && cityOptions.length > 0 && (
+          <SelectField name="city" control={control} label="City" options={cityOptions} />
+        )}
+
+        {error && <Alert severity="error">{error}</Alert>}
         <Box
           style={{
             marginTop: '24px',
           }}
         >
-          <Button type="submit" variant="contained" color="primary">
-            Save
+          <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+            {isSubmitting && <CircularProgress size={16} color="primary" />}&nbsp;Save
           </Button>
         </Box>
       </form>
