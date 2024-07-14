@@ -8,6 +8,7 @@ import App from './App';
 import { store } from './app/store';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import { ToastContainer } from 'react-toastify';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -19,6 +20,17 @@ root.render(
         <CssBaseline />
         <App />
       </ConnectedRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Provider>
   </React.StrictMode>,
 );

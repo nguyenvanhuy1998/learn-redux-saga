@@ -5,6 +5,7 @@ import { Student } from 'models';
 import { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { StudentForm } from '../components/StudentForm';
+import { toast } from 'react-toastify';
 
 export function AddEditPage() {
   const history = useHistory();
@@ -40,6 +41,7 @@ export function AddEditPage() {
     } else {
       await studentApi.add(formValues);
     }
+    toast.success('Save student successfully');
     // Redirect back to student list
     history.push('/admin/students');
   };
